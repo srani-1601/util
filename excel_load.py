@@ -1,7 +1,28 @@
+
 import pandas as pd
 import json
 
 def get_request_details(request_type, file_path):
+
+    """
+    Retrieve details for a given request type from an Excel file.
+
+    This function reads an Excel file containing various request types and their corresponding details
+    in separate sheets. It validates if the given request type exists in the main sheet ('Request Types')
+    and then fetches details from the sheet whose name starts with the request type. The function 
+    specifically filters rows where the 'Required' column has 'Y' and the 'where info can be found' 
+    column is 'customer provided'.
+
+    Parameters:
+    request_type (str): The request type to search for (e.g., 'EUP').
+    file_path (str): The path to the Excel file containing the request types and details.
+
+    Returns:
+    str: A JSON string containing the relevant details if found, or an error message.
+
+
+    """
+    
     # Read the Excel file to check sheet names
     xls = pd.ExcelFile(file_path)
     sheet_names = xls.sheet_names
