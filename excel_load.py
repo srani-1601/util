@@ -24,10 +24,13 @@ def get_request_details(request_type, file_path):
     except Exception as e:
         return json.dumps({"error": str(e)})
     # Filter rows where 'Required' column has 'Y' and extract relevant data
-    if 'Required' in request_data.columns:
-        required_data = request_data[request_data['Required'] == 'y']
-        relevant_data = required_data.iloc[:, 0].tolist()
-        print(relevant_data)
+ # Filter rows where 'Required' column has 'Y' and 'where info can be found' column is 'customer provided'
+    if 'Required' in request_data.columns and 'where info can be found' in request_data.columns:
+        print(request_data)
+        required_data = request_data[
+            (request_data['Required'].str.strip().str.upper() == 'Y') &
+            (request_data['where info can be found'].str.strip().str.lower() == 'customer provided')
+        ]
 
     else:
         return json.dumps({"error": "Column 'Required' not found in the sheet"})
